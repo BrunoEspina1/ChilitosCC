@@ -27,6 +27,14 @@
         "S3Triggerbefd1857": {
           "deploymentBucketName": "amplify-chilitoscc-dev-57ab7-deployment",
           "s3Key": "amplify-builds/S3Triggerbefd1857-366a615a6f694254516a-build.zip"
+        },
+        "createLivenessSession": {
+          "deploymentBucketName": "amplify-chilitoscc-dev-57ab7-deployment",
+          "s3Key": "amplify-builds/createLivenessSession-315946433455636c5230-build.zip"
+        },
+        "getLivenessResult": {
+          "deploymentBucketName": "amplify-chilitoscc-dev-57ab7-deployment",
+          "s3Key": "amplify-builds/getLivenessResult-7562394b6a7164466e62-build.zip"
         }
       },
       "storage": {
