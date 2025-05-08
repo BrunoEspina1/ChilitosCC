@@ -1,1 +1,138 @@
-{}
+{
+  "api": {
+    "CCApi": {
+      "dependsOn": [
+        {
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "analyzeFaceFunction"
+        },
+        {
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "analyzePlateFunction"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "API Gateway"
+    }
+  },
+  "auth": {
+    "chilitoscc2aa26fea": {
+      "customAuth": false,
+      "dependsOn": [],
+      "frontendAuthConfig": {
+        "mfaConfiguration": "OFF",
+        "mfaTypes": [
+          "SMS"
+        ],
+        "passwordProtectionSettings": {
+          "passwordPolicyCharacters": [],
+          "passwordPolicyMinLength": 8
+        },
+        "signupAttributes": [
+          "EMAIL"
+        ],
+        "socialProviders": [],
+        "usernameAttributes": [
+          "EMAIL"
+        ],
+        "verificationMechanisms": [
+          "EMAIL"
+        ]
+      },
+      "providerPlugin": "awscloudformation",
+      "service": "Cognito"
+    }
+  },
+  "function": {
+    "S3Triggerbefd1857": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
+    "analyzeFaceFunction": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
+    "analyzePlateFunction": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    }
+  },
+  "parameters": {
+    "AMPLIFY_function_S3Triggerbefd1857_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "S3Triggerbefd1857"
+        }
+      ]
+    },
+    "AMPLIFY_function_S3Triggerbefd1857_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "S3Triggerbefd1857"
+        }
+      ]
+    },
+    "AMPLIFY_function_analyzeFaceFunction_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "analyzeFaceFunction"
+        }
+      ]
+    },
+    "AMPLIFY_function_analyzeFaceFunction_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "analyzeFaceFunction"
+        }
+      ]
+    },
+    "AMPLIFY_function_analyzePlateFunction_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "analyzePlateFunction"
+        }
+      ]
+    },
+    "AMPLIFY_function_analyzePlateFunction_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "analyzePlateFunction"
+        }
+      ]
+    }
+  },
+  "storage": {
+    "mediaStorage": {
+      "dependsOn": [
+        {
+          "attributes": [
+            "Name",
+            "Arn",
+            "LambdaExecutionRole"
+          ],
+          "category": "function",
+          "resourceName": "S3Triggerbefd1857"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "S3"
+    }
+  }
+}
