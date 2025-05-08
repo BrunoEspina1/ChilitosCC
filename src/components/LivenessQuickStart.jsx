@@ -1,79 +1,85 @@
-import React from 'react';
-import { FaceLivenessDetector } from '@aws-amplify/ui-react-liveness';
-import { Loader, ThemeProvider } from '@aws-amplify/ui-react';
-import { get, post } from 'aws-amplify/api';
+import React, { useState } from 'react';
+import { uploadData } from 'aws-amplify/storage';
+import { post } from 'aws-amplify/api';
 
-export default function LivenessQuickStart({ onSuccess }) {
-  const [loading, setLoading] = React.useState(true);
-  const [sessionInfo, setSessionInfo] = React.useState(null);
+const ImageUpload = () => {
+  const [image, setImage] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [uploadProgress, setUploadProgress] = useState(0);
 
-  // 1. Petición a la API usando Amplify API (confiamos que el endpoint está configurado correctamente)
-  React.useEffect(() => {
-    const fetchCreateLiveness = async () => {
-      try {
+  // Función para manejar el cambio de archivo (imagen seleccionada)
+  const handleImageChange = (e) => {
+    setImage(e.target.files[0]);
+  };
 
-        console.log('Hola')
-        const data = post({
-            apiName: 'CCApi',
-            path: '/liveness/session',
-            options: {
-                body: {
-                  message: 'Nada'
-                }
-              }
-        })
-        
-        const { body } = await data.response;
-        const response = await body.json();
-
-        console.log('ciao')
-        console.log(response)
-
-        setSessionInfo(response);  // { sessionId, region }
-        setLoading(false);
-      } catch (error) {
-        console.error('Error al crear sesión de prueba de vida:', error);
-      }
-    };
-    fetchCreateLiveness();
-  }, []);
-
-  // 2. Cuando la prueba de vida se complete
-  const handleAnalysisComplete = async () => {
+  // Función para cargar la imagen y obtener la clave del archivo en S3
+  const handleImageUpload = async (file) => {
     try {
+      const result = await uploadData({
+        path: `public/${file.name}`, // Cambia el path según tu estructura de almacenamiento en S3
+        data: file,
+        options: {
+          onProgress: ({ transferredBytes, totalBytes }) => {
+            if (totalBytes) {
+              const progress = Math.round((transferredBytes / totalBytes) * 100);
+              setUploadProgress(progress); // Actualiza el progreso de carga
+            }
+          },
+        },
+      }).result;
+      console.log(result)
+      return result.path; // Retorna la clave del archivo en S3
+    } catch (error) {
+      console.error('Error al cargar la imagen:', error);
+      throw error;
+    }
+  };
 
-        const res = get({
-            apiName: 'CCApi',
-            path:  `/liveness/result?sessionId=${sessionInfo.sessionId}`
-        })
+  // Función para manejar la carga de la imagen y enviar la solicitud a la API Gateway
+  const handleUpload = async () => {
+    if (!image) {
+      alert('Por favor selecciona una imagen.');
+      return;
+    }
 
-        const { body } = await res.response;
-        const response = await body.json();
-        console.log(response);
-        console.log(response.isLive)
+    setLoading(true);
+    try {
+      // Subir la imagen a S3 y obtener la clave del archivo
+      const fileKey = await handleImageUpload(image);
 
-      if (response.isLive) {
-        onSuccess?.(); // Llamada exitosa
-      } else {
-        alert('No se validó la prueba de vida');
-      }
-    } catch (e) {
-        console.log('GET call failed: ', JSON.parse(e.response.body));
-      }
+      // Realizar la solicitud a la API Gateway para procesar la imagen con Rekognition
+      const result = post({
+        apiName: 'CCApi', // Nombre de tu API Gateway
+        path: '/facial-analysis', // La ruta del endpoint en tu API Gateway
+        options: {
+          body: {
+            bucket: 'chilitosccb57f042b6f394b9c86efe0bb3430ab2757ab7-dev', // Nombre del bucket de S3
+            key: fileKey, // Clave del archivo que se subió
+          },
+        },
+      });
+
+      const { body } = await result.response;
+      const response = await body.json();
+      console.log(response); // Aquí puedes manejar la respuesta, como mostrar los resultados del análisis facial
+      alert('Análisis facial completado');
+    } catch (error) {
+      console.error('Error al procesar la imagen:', error);
+      alert('Ocurrió un error al procesar la imagen.');
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
-    <ThemeProvider>
-      {loading ? (
-        <Loader />
-      ) : (
-        <FaceLivenessDetector
-          sessionId={sessionInfo.sessionId}
-          region={sessionInfo.region}
-          onAnalysisComplete={handleAnalysisComplete}
-          onError={console.error}
-        />
-      )}
-    </ThemeProvider>
+    <div>
+      <input type="file" accept="image/*" onChange={handleImageChange} />
+      {uploadProgress > 0 && <p>Progreso de carga: {uploadProgress}%</p>}
+      <button onClick={handleUpload} disabled={loading}>
+        {loading ? 'Cargando...' : 'Subir y Analizar Imagen'}
+      </button>
+    </div>
   );
-}
+};
+
+export default ImageUpload;

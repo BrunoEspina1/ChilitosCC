@@ -28,6 +28,13 @@
       "permissions": {
         "setting": "open"
       }
+    },
+    "/facial-analysis": {
+      "name": "/facial-analysis",
+      "lambdaFunction": "ImageAnalysisFunction",
+      "permissions": {
+        "setting": "open"
+      }
     }
   }
 }
