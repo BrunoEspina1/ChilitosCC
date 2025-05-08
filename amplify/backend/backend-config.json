@@ -17,6 +17,22 @@
           ],
           "category": "function",
           "resourceName": "analyzePlateFunction"
+        },
+        {
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "createLivenessSession"
+        },
+        {
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "getLivenessResult"
         }
       ],
       "providerPlugin": "awscloudformation",
@@ -63,6 +79,16 @@
       "service": "Lambda"
     },
     "analyzePlateFunction": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
+    "createLivenessSession": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
+    "getLivenessResult": {
       "build": true,
       "providerPlugin": "awscloudformation",
       "service": "Lambda"
@@ -114,6 +140,38 @@
         {
           "category": "function",
           "resourceName": "analyzePlateFunction"
+        }
+      ]
+    },
+    "AMPLIFY_function_createLivenessSession_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "createLivenessSession"
+        }
+      ]
+    },
+    "AMPLIFY_function_createLivenessSession_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "createLivenessSession"
+        }
+      ]
+    },
+    "AMPLIFY_function_getLivenessResult_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "getLivenessResult"
+        }
+      ]
+    },
+    "AMPLIFY_function_getLivenessResult_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "getLivenessResult"
         }
       ]
     }
