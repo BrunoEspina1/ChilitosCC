@@ -1,0 +1,15 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-chilitoscc-dev-57ab7-authRole",
+      "UnauthRoleArn": "arn:aws:iam::954976296009:role/amplify-chilitoscc-dev-57ab7-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::954976296009:role/amplify-chilitoscc-dev-57ab7-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "amplify-chilitoscc-dev-57ab7-deployment",
+      "UnauthRoleName": "amplify-chilitoscc-dev-57ab7-unauthRole",
+      "StackName": "amplify-chilitoscc-dev-57ab7",
+      "StackId": "arn:aws:cloudformation:us-east-1:954976296009:stack/amplify-chilitoscc-dev-57ab7/224ba730-2c29-11f0-9b8d-0e259c9bd31b",
+      "AmplifyAppId": "d38ond5wusgm43"
+    }
+  }
+}
