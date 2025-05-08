@@ -1,0 +1,19 @@
+{
+  "version": 1,
+  "paths": {
+    "/analyze/face": {
+      "name": "/analyze/face",
+      "lambdaFunction": "analyzeFaceFunction",
+      "permissions": {
+        "setting": "open"
+      }
+    },
+    "/analyze/plate": {
+      "name": "/analyze/plate",
+      "lambdaFunction": "analyzePlateFunction",
+      "permissions": {
+        "setting": "open"
+      }
+    }
+  }
+}

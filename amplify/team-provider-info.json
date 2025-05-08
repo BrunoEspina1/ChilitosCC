@@ -10,6 +10,31 @@
       "StackName": "amplify-chilitoscc-dev-57ab7",
       "StackId": "arn:aws:cloudformation:us-east-1:954976296009:stack/amplify-chilitoscc-dev-57ab7/224ba730-2c29-11f0-9b8d-0e259c9bd31b",
       "AmplifyAppId": "d38ond5wusgm43"
+    },
+    "categories": {
+      "auth": {
+        "chilitoscc2aa26fea": {}
+      },
+      "function": {
+        "analyzeFaceFunction": {
+          "deploymentBucketName": "amplify-chilitoscc-dev-57ab7-deployment",
+          "s3Key": "amplify-builds/analyzeFaceFunction-6b6f4742745169703732-build.zip"
+        },
+        "analyzePlateFunction": {
+          "deploymentBucketName": "amplify-chilitoscc-dev-57ab7-deployment",
+          "s3Key": "amplify-builds/analyzePlateFunction-464f5644446734327a39-build.zip"
+        },
+        "S3Triggerbefd1857": {
+          "deploymentBucketName": "amplify-chilitoscc-dev-57ab7-deployment",
+          "s3Key": "amplify-builds/S3Triggerbefd1857-366a615a6f694254516a-build.zip"
+        }
+      },
+      "storage": {
+        "mediaStorage": {}
+      },
+      "api": {
+        "CCApi": {}
+      }
     }
   }
 }
