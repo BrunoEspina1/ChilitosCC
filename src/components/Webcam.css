@@ -3,13 +3,10 @@
     border: 2px solid black; /* Color del borde */
     color: black;
     cursor: pointer;
-    font-size: 20px;  
     padding: 2px;  
-    width: 40px;   
-    height: 40px;  
+    height: 10px; 
     box-shadow: 0 6px 8px rgba(0, 0, 0, 0.1);
     border-radius: 10px; /* Borde redondeado */
-    display: flex;
     justify-content: center;
     align-items: center;
     transition: transform 0.3s ease-in-out, background-color 0.3s ease-in-out;

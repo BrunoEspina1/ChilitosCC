@@ -162,7 +162,7 @@ const WebcamCapture = ( {estadoDeseado, setPassed}) => {
   return (
     <div>
         <div className=''>
-         <h2>AUTENTICADOR DE GESTOS</h2>
+         <h2>PRUEBA DE VIDA</h2>
          </div> 
        {overlayActive && (
         <div className={`overlay ${statusMessage ? 'active' : ''}`}>
