@@ -4,11 +4,14 @@ import { uploadData } from 'aws-amplify/storage'; // Importar la función para s
 import './WebcamVideo.css';
 import { BsRecordCircleFill } from "react-icons/bs";
 import { FaStop } from "react-icons/fa";
+import { post } from 'aws-amplify/api';
+
 const WebcamVideo = () => {
   const [video, setVideo] = useState(null); // Para guardar el video grabado
   const [loading, setLoading] = useState(false); // Para saber si se está subiendo el video
   const [uploadProgress, setUploadProgress] = useState(0); // Progreso de la subida
   const [isRecording, setIsRecording] = useState(false); // Estado para saber si está grabando
+  const [path, setPath] = useState(false);
   const webcamRef = useRef(null); // Referencia al componente Webcam
   const mediaRecorderRef = useRef(null); // Referencia al MediaRecorder
 
@@ -23,7 +26,7 @@ const WebcamVideo = () => {
     };
 
     mediaRecorderRef.current.onstop = () => {
-      const videoBlob = new Blob(chunks, { type: 'video/mp4' });
+      const videoBlob = new Blob(chunks, { type: 'video/MP4;codecs=h264' });
       const videoUrl = URL.createObjectURL(videoBlob);
       setVideo(videoUrl); // Guardar la URL del video grabado
       sendVideo(videoBlob); // Enviar el video a S3
@@ -36,7 +39,7 @@ const WebcamVideo = () => {
   // Función para detener la grabación del video
   const stopRecording = () => {
     mediaRecorderRef.current.stop();
-    setIsRecording(false); // Detener la grabación
+    setIsRecording(false);
   };
 
   // Función para convertir el video Blob a un formato compatible con AWS S3
@@ -56,12 +59,40 @@ const WebcamVideo = () => {
           },
         },
       }).result;
-      setLoading(false); // Termina la carga
+      setLoading(false);
+      setPath(fileName);
+      analyzeVideo();
     } catch (error) {
       console.error('Error al cargar el video:', error);
       setLoading(false);
     }
   };
+
+  const analyzeVideo = async () => {
+    try{
+      const fileKey = 'public/' + path;
+      console.log('filekey del video subido: ', fileKey);
+
+      const res = post({
+        apiName: 'CCApi',
+        path: '/video/process',
+        options: {
+          body: {
+            bucket: 'chilitosccb57f042b6f394b9c86efe0bb3430ab2757ab7-dev', 
+            key: fileKey,
+          },
+        },
+      });
+
+      const { body } = await res.response;
+      const response = await body.json();
+      console.log(response);
+    }
+    catch(error){
+      console.error('Error al analizar el video: ', error);
+      setLoading(false);
+    }
+  }
 
   return (
     <div>
