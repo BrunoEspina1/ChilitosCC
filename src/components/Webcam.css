@@ -1,0 +1,11 @@
+.tomarFotoBtn{
+    background-color: white;
+    border: 2px solid black !important; 
+    color: black;
+    cursor: pointer;
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.1); 
+    font-size: 14px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
