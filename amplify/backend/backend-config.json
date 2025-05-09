@@ -33,6 +33,14 @@
           ],
           "category": "function",
           "resourceName": "getLivenessResult"
+        },
+        {
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "ImageAnalysisFunction"
         }
       ],
       "providerPlugin": "awscloudformation",
@@ -68,6 +76,11 @@
     }
   },
   "function": {
+    "ImageAnalysisFunction": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
     "S3Triggerbefd1857": {
       "build": true,
       "providerPlugin": "awscloudformation",
@@ -95,6 +108,22 @@
     }
   },
   "parameters": {
+    "AMPLIFY_function_ImageAnalysisFunction_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "ImageAnalysisFunction"
+        }
+      ]
+    },
+    "AMPLIFY_function_ImageAnalysisFunction_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "ImageAnalysisFunction"
+        }
+      ]
+    },
     "AMPLIFY_function_S3Triggerbefd1857_deploymentBucketName": {
       "usedBy": [
         {

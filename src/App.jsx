@@ -1,31 +1,40 @@
-import { useState } from 'react';
-import reactLogo from './assets/react.svg';
-import viteLogo from '/vite.svg';
+import { useState, useEffect } from 'react';
 import './App.css';
 import LivenessQuickStart from './components/LivenessQuickStart';
+import AutenticateAnimation from './pages/AutenticateAnimation';
+import Plate from './pages/Plate';
 
 function App() {
-  const [passed, setPassed] = useState(false);
+  const [passed, setPassed] = useState(false); // Lo mantienes en true para ver la animación desde el inicio
+  const [animationTriggered, setAnimationTriggered] = useState(false); // Esto activará la animación
+
+  useEffect(() => {
+    if (passed) {
+        setTimeout(5000)
+      setAnimationTriggered(true);
+      setTimeout(() => {
+        setAnimationTriggered(false);  // Reset the animation to allow it to run again
+      }, 1000);  // Duration of the animation
+    }
+  }, [passed]);
+
+  const handleSuccess = () => {
+    setPassed(true);
+  };
 
   return (
     <>
       {!passed ? (
-        <LivenessQuickStart onSuccess={() => setPassed(true)} />
+        <div>
+            <LivenessQuickStart onSuccess={handleSuccess} />
+        </div>
+        
       ) : (
         <>
-          {/* Tu contenido normal después de la prueba de vida */}
-          <div>
-            <a href="https://vite.dev" target="_blank">
-              <img src={viteLogo} className="logo" alt="Vite logo" />
-            </a>
-            <a href="https://react.dev" target="_blank">
-              <img src={reactLogo} className="logo react" alt="React logo" />
-            </a>
-          </div>
-          <h1>Vite + React</h1>
-          <div className="card">
-            {/* … resto de tu UI … */}
-          </div>
+            <AutenticateAnimation animationTriggered={animationTriggered}/>
+            <div>
+                <Plate></Plate>
+            </div>
         </>
       )}
     </>
