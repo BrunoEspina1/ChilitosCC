@@ -23,13 +23,13 @@ h2{
     align-items: center;
 }
 .pageDiv{
- position: fixed;
-  bottom: 87px; 
-  right: 400px;      
+ position: absolute;
+  top: 595px; 
+  right: 150px;      
   display: flex;
   align-items: flex-end; 
-  justify-content: flex-end;
-}  
+  justify-content: flex-end;
+}
   .selectButton:hover {
     background-color: #b2b3b2; 
   }

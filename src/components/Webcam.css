@@ -1,21 +1,26 @@
 .tomarFotoBtn {
     background-color: white;
-    border: 2px solid black; /* Color del borde */
+    border: 2px solid black;
     color: black;
     cursor: pointer;
-    font-size: 20px;  
-    padding: 2px;  
-    width: 40px;   
-    height: 40px;  
+    padding: 5px;
+    margin-top: 8px;
+    height: 43px; /* Aumentado para mejor usabilidad */
     box-shadow: 0 6px 8px rgba(0, 0, 0, 0.1);
-    border-radius: 10px; /* Borde redondeado */
-    display: flex;
+    border-radius: 10px;
+    display: flex; /* Faltaba esta propiedad */
     justify-content: center;
     align-items: center;
     transition: transform 0.3s ease-in-out, background-color 0.3s ease-in-out;
 }
 
-.tomarFotoBtn:hover {
+/* Añade esto para el icono */
+.tomarFotoBtn svg {
+    width: 24px;
+    height: 24px;
+    
+}
+
+.tomarFotoBtn:hover{
     transform: scale(1.1);
-    background-color: #f1f1f1; 
 }

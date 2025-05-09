@@ -25,7 +25,7 @@
   box-shadow: 0 6px 8px rgba(0, 0, 0, 0.1); 
   align-items: center; 
   flex: auto;
-  padding: 24px;
+  padding: 30px;
 
 }
 
@@ -47,5 +47,115 @@ header {
   font-size: 20px;
 }
 
+.text {
+  position: absolute;
+  bottom: 5px;
+  font-size: 16px;
+  text-align: center;
+
+}
+
+a {
+  text-decoration: none; /* Elimina subrayado del enlace */
+  color: #691B34; /* Puedes ajustar el color del enlace */
+}
+
+a:hover .text {
+  color: rgb(117, 4, 4); /* Cambia el color al pasar el ratón */
+}
+
+.popup {
+  position: absolute; /* Se coloca dentro del div .imageProcess */
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: rgba(0, 0, 0, 0.8); /* Fondo semi-transparente */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000; /* Asegura que esté sobre otros elementos */
+  width: 80%;
+  max-width: 600px;
+  padding: 20px;
+  border-radius: 8px;
+}
+
+.popup-content {
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  text-align: center;
+}
+
+.popup-content h2 {
+  font-size: 24px;
+}
+
+.popup-content p {
+  font-size: 18px;
+  margin: 20px 0;
+}
+
+.close-btn {
+  padding: 10px 20px;
+  background-color: #691B34;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.close-btn:hover {
+  background-color: #991B48;
+}
+
+.popup {
+  position: absolute; /* Se coloca dentro del div .imageProcess */
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: rgba(0, 0, 0, 0.8); /* Fondo semi-transparente */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000; /* Asegura que esté sobre otros elementos */
+  width: 80%;
+  max-width: 600px;
+
+  overflow: hidden; /* Evita que el contenido se salga del contenedor */
+}
+
+.popup-content {
+  background-color: white;
+  padding: 20px;
+  text-align: center;
+  max-height: 400px; /* Limita la altura máxima del contenido */
+  overflow-y: auto; /* Agrega el scroll vertical si el contenido excede el tamaño máximo */
+  width: 100%;
+}
+
+.popup-content h2 {
+  font-size: 24px;
+}
+
+.popup-content p {
+  font-size: 18px;
+  margin: 20px 0;
+}
+
+.close-btn {
+  padding: 10px 20px;
+  background-color: #691B34;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.close-btn:hover {
+  background-color: #991B48;
+}
 
 
