@@ -215,5 +215,19 @@ tbody tr:hover {
 
 .ver:hover {
   background-color: #cbadb0;
-
 }
+
+.download-csv-btn {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 20px;
+}
+
+.download-csv-btn:hover {
+  background-color: #0056b3;
+}
+
