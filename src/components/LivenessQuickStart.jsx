@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { uploadData } from 'aws-amplify/storage';
 import { post } from 'aws-amplify/api';
 import './Liveness.css'
+import WebcamCapture from './WebcamCapture';
+import { FaUpload } from 'react-icons/fa';  
 
 
 const ImageUpload = ({ onSuccess, setPassed, setAnimationTriggered }) => {
@@ -191,21 +193,33 @@ const ImageUpload = ({ onSuccess, setPassed, setAnimationTriggered }) => {
           </div>
         </div>
       )}
-
-
-      <div>
+      
         <button className='random' onClick={obtenerEstadoAleatorio}>Generar estado aleatorio</button>
-      </div>
-
+    
       <div className='liveness-accion'>
         <p>Estado: <span className="bold"> {estadoDeseado}</span></p>
       </div>
-
-      <input type="file" accept="image/*" onChange={handleImageChange} />
+      <div className='webCam'>
+      <WebcamCapture/>
+      </div>
+      <div className="button-container">
+      <div className="file-upload-container">
+        <input
+          type="file"
+          id="file-upload"
+          accept="image/*"
+          onChange={handleImageChange}
+          style={{ display: 'none' }}
+        />
+        <label htmlFor="file-upload" className="custom-file-upload">
+          <i className="upload-icon"></i> Subir Imagen
+        </label>
+      </div>
       {uploadProgress > 0 && <p>Progreso de carga: {uploadProgress}%</p>}
       <button className='selectButton' onClick={handleUpload} disabled={loading}>
         {loading ? 'Cargando...' : 'Subir y Analizar Imagen'}
       </button>
+      </div>
       <div className='pageDiv'>
       {success && <button onClick={handleButtonClick} className='pageButton'>Ir a plates</button>}
       </div>
