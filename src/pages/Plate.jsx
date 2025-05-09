@@ -1,7 +1,8 @@
 import React from "react";
 import '../components/Plate.css';
 import { IoMdArrowBack } from "react-icons/io";
-import WebcamCapture from "../components/WebcamCapture";
+import WebcamVideo from "../components/WebcamVideo";
+import { FaUpload } from "react-icons/fa6";
 
 function Plate() {
 
@@ -21,10 +22,11 @@ function Plate() {
         
       <div className="left-section">
         <div>
-        <button onClick={handleReload} className="button2"><IoMdArrowBack /> 
+        <button onClick={handleReload} className="back-btn"><IoMdArrowBack /> 
         </button> 
         </div>
-        <label htmlFor="file-upload" className="button1">Subir</label>
+        
+        <label htmlFor="file-upload" className="upload-btn"><FaUpload/><p>Subir</p></label>
         <input
           type="file"
           id="file-upload"
@@ -34,7 +36,9 @@ function Plate() {
         />
     
       </div>
-      <WebcamCapture/>
+        <div className="video-card">
+            <WebcamVideo/>
+        </div>
       <div className="right-section">
         <div className="license-plate">
           <p>Placa: 98-XYZ-AA</p>
