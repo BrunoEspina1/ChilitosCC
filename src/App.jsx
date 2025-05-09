@@ -5,7 +5,7 @@ import AutenticateAnimation from './pages/AutenticateAnimation';
 import Plate from './pages/Plate';
 
 function App() {
-  const [passed, setPassed] = useState(false); // Lo mantienes en true para ver la animación desde el inicio
+  const [passed, setPassed] = useState(false); 
   const [animationTriggered, setAnimationTriggered] = useState(false); // Esto activará la animación
 
   useEffect(() => {
