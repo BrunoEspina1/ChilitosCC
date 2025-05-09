@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { uploadData } from 'aws-amplify/storage';
 import { post } from 'aws-amplify/api';
-import './Liveness.css'
 import WebcamCapture from './WebcamCapture';
-import { FaUpload } from 'react-icons/fa';  
+
 
   export const opcionesEstados = [
     "sonrie", 
@@ -39,6 +38,7 @@ const ImageUpload = ({ onSuccess, setPassed, setAnimationTriggered }) => {
   const [statusMessage, setStatusMessage] = useState('');  
   const [success, setSuccess] = useState(false); 
   const [overlayActive, setOverlayActive] = useState(false);
+  const [animating, setAnimating] = useState(true);
    
   const setSuccess2= (state)=> {
       setSuccess(state)
@@ -52,16 +52,18 @@ const ImageUpload = ({ onSuccess, setPassed, setAnimationTriggered }) => {
   };
 
  
+  useEffect(() => {
+    const obtenerEstadoAleatorio = () => {
+      const aleatorio = opcionesEstados[Math.floor(Math.random() * opcionesEstados.length)];
+      setEstadoDeseado(aleatorio);
+    };
+    obtenerEstadoAleatorio();  // Ejecuta la función automáticamente al cargar la página
+  }, []);
 
-
-  const obtenerEstadoAleatorio = () => {
-    const aleatorio = opcionesEstados[Math.floor(Math.random() * opcionesEstados.length)];
-    setEstadoDeseado(aleatorio); // Establecer el estado aleatorio seleccionado
-  };
 
   const compararEstado = (resultadoAWS, estadoDeseado) => {
     const emociones = resultadoAWS.faces[0].emotions.reduce((acc, emo) => {
-      acc[emo.Type.toLowerCase()] = emo.Confidence > 90; // Puedes ajustar el umbral
+      acc[emo.Type.toLowerCase()] = emo.Confidence > 90; 
       return acc;
     }, {});
 
@@ -184,9 +186,33 @@ const ImageUpload = ({ onSuccess, setPassed, setAnimationTriggered }) => {
   };
 
 
+  useEffect(() => {
+    // Función para cambiar rápidamente las palabras
+    const interval = setInterval(() => {
+      if (animating) {
+        const aleatorio = opcionesEstados[Math.floor(Math.random() * opcionesEstados.length)];
+        setEstadoDeseado(aleatorio);
+      }
+    }, 100); // Cambia el texto cada 100ms
+
+    // Detener la animación después de 2 segundos
+    const timeout = setTimeout(() => {
+      setAnimating(false);  // Detenemos la animación
+    }, 2000); // Detener después de 2 segundos
+
+    // Limpiar los intervalos y timeouts al desmontar el componente
+    return () => {
+      clearInterval(interval);
+      clearTimeout(timeout);
+    };
+  }, [animating]);
+
 
   return (
+    
     <div >
+      
+
             {overlayActive && (
         <div className={`overlay ${statusMessage ? 'active' : ''}`}>
           <div className="overlay-content">
@@ -195,33 +221,19 @@ const ImageUpload = ({ onSuccess, setPassed, setAnimationTriggered }) => {
         </div>
       )}
       
-        <button className='random' onClick={obtenerEstadoAleatorio}>Generar estado aleatorio</button>
-    
-      <div className='liveness-accion'>
-        <p>Estado: <span className="bold"> {estadoDeseado}</span></p>
+        {/* <button className='random' onClick={obtenerEstadoAleatorio}>Generar estado aleatorio</button> */}
+       
+       
+        <div className='liveness-accion'>
+        <span className="bold"> {estadoDeseado}</span>
       </div>
+
       <div className='webCam'>
+      
       <WebcamCapture estadoDeseado={estadoDeseado} setSuccess={setSuccess2}
       setPassed={setPassed}/>
       </div>
-      <div className="button-container">
-      <div className="file-upload-container">
-        <input
-          type="file"
-          id="file-upload"
-          accept="image/*"
-          onChange={handleImageChange}
-          style={{ display: 'none' }}
-        />
-        <label htmlFor="file-upload" className="custom-file-upload">
-          <i className="upload-icon"></i> Subir Imagen
-        </label>
-      </div>
-      {uploadProgress > 0 && <p>Progreso de carga: {uploadProgress}%</p>}
-      <button className='selectButton' onClick={handleUpload} disabled={loading}>
-        {loading ? 'Cargando...' : 'Subir y Analizar Imagen'}
-      </button>
-      </div>
+     
       <div className='pageDiv'>
       {success && <button onClick={handleButtonClick} className='pageButton'>Ir a plates</button>}
       </div>
