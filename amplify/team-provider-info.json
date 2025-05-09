@@ -35,6 +35,10 @@
         "getLivenessResult": {
           "deploymentBucketName": "amplify-chilitoscc-dev-57ab7-deployment",
           "s3Key": "amplify-builds/getLivenessResult-7562394b6a7164466e62-build.zip"
+        },
+        "ImageAnalysisFunction": {
+          "deploymentBucketName": "amplify-chilitoscc-dev-57ab7-deployment",
+          "s3Key": "amplify-builds/ImageAnalysisFunction-6a67795033486b422b36-build.zip"
         }
       },
       "storage": {
