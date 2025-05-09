@@ -2,9 +2,10 @@ import React, { useRef, useState } from 'react';
 import Webcam from 'react-webcam';
 import { uploadData } from 'aws-amplify/storage'; // Importar la función para subir datos a S3
 import './Webcam.css'
-import { opcionesEstados } from './LivenessQuickStart';
 import { post } from 'aws-amplify/api';
 import './Liveness.css'
+import { IoCameraOutline } from "react-icons/io5";
+
 
 const WebcamCapture = ( {estadoDeseado, setPassed}) => {
   const [photo, setPhoto] = useState(null); // Para guardar la imagen tomada
@@ -140,10 +141,10 @@ const WebcamCapture = ( {estadoDeseado, setPassed}) => {
       console.log('Coincidencia: ', coincide)
       
       if (coincide) {
-        setStatusMessage(`✅ Correcto: La persona coincide con el estado: ${estadoDeseado}`);
+        setStatusMessage(`✅ La persona coincide con el estado: ${estadoDeseado}`);
         setSuccess(true);
       } else {
-        setStatusMessage(`❌ No coincide con el estado deseado: ${estadoDeseado}`);
+        setStatusMessage(`❌ No coincide con el estado: ${estadoDeseado}`);
         setSuccess(false);
       }
     } catch (error) {
@@ -154,14 +155,15 @@ const WebcamCapture = ( {estadoDeseado, setPassed}) => {
      
       setTimeout(() => {
         setOverlayActive(false); 
-      }, 1000);
+      }, 2000);
     }
   };
 
   return (
     <div>
-      <h2>Captura de Foto</h2>
-       
+        <div className=''>
+         <h2>AUTENTICADOR DE GESTOS</h2>
+         </div> 
        {overlayActive && (
         <div className={`overlay ${statusMessage ? 'active' : ''}`}>
           <div className="overlay-content">
@@ -169,25 +171,32 @@ const WebcamCapture = ( {estadoDeseado, setPassed}) => {
           </div>
         </div>
       )}
-
+      <div className='pageDiv'>
       {success && <button onClick={handleButtonClick} className='pageButton'>Ir a plates</button>}
-
-      {/* Webcam que muestra la vista previa */}
+      </div>
+      
       <Webcam
-        audio={false} // Desactivar el audio
-        ref={webcamRef}
-        screenshotFormat="image/png" // Formato de imagen que queremos
-        width="100%" // Ancho del componente Webcam
-        videoConstraints={{
-          facingMode: 'user', // Utilizar la cámara frontal
-        }}
-      />
+      audio={false}
+      ref={webcamRef}
+      screenshotFormat="image/png"
+      width="120%"
+      videoConstraints={{
+        facingMode: 'user',
+      }}
+      style={{
+        backgroundColor: 'white',
+          border: success === null ? 'none' : success ? '3px solid green' : '',
+          display: 'flex',
+          alignItems: 'center',
+          flex: 'auto',
+          borderRadius: '20px',
+  }}
+/>
 
      
-      <button className='tomarFotoBtn' onClick={capture}>Tomar Foto</button> 
+      <button className='tomarFotoBtn' onClick={capture}><IoCameraOutline /></button> 
 
 
-      {/* Mostrar el progreso de la carga */}
       {loading && (
         <div>
           <p>Subiendo la imagen... {uploadProgress}%</p>

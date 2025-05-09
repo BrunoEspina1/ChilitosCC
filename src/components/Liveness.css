@@ -1,6 +1,18 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
+
+
+h2{
+  font-family: 'Poppins', sans-serif;
+  position: absolute;
+  display: flex;
+  flex: auto;
+  bottom: 580px;
+  color: white;
+}
+
 .webCam{
     position: absolute;
-    top: 0;
+    top: 100px;
     left: 0;
     right: 0;
     bottom: 170px;
@@ -12,8 +24,8 @@
 }
 .pageDiv{
  position: fixed;
-  bottom: 450px;       
-  right: 200px;        
+  bottom: 87px; 
+  right: 400px;      
   display: flex;
   align-items: flex-end; 
   justify-content: flex-end;
@@ -24,9 +36,9 @@
 
 .liveness-accion {
     position: absolute;
-    top: 45px;
-    left: 45px;
-    font-size: 16px;
+    top: 10px;
+    left: 200px;
+    font-size: 20px;
     background-color: white;
     border: 2px solid black !important; 
     color: black;
@@ -35,7 +47,7 @@
     align-items: center; 
     flex: auto;
     padding: 3px;
-    border-radius: 5px;
+    border-radius: 20px;
   }
 
   .random {
@@ -56,6 +68,8 @@
 }
   .bold{
     font-weight: bold;
+    padding: 10px;
+    border-radius: 20px;
   }
   
 
@@ -71,8 +85,9 @@
     align-items: center;
     opacity: 0;
     pointer-events: none;
-    transition: opacity 0.5s ease-in-out; 
+    transition: opacity 1s ease-in-out; 
     z-index: 999;
+    font-size: 25px;
   }
   
   .overlay.active {
@@ -81,54 +96,28 @@
   } 
   
   .success {
-    color: green;
+    color: white;
   }
   
   .error {
-    color: red;
+    color: white;
   }
 
- 
-.file-upload-container {
-  display: flex;
-  align-items: center;
-  flex: auto;
-  justify-content: center;
-}
 
-
-/* Estilos al pasar el ratón */
-.custom-file-upload:hover {
-  background-color: #b2b3b2;
-}
-
-/* Icono dentro del botón */
-.icon-upload {
-  margin-right: 8px; 
-  font-size: 20px;   
-}
-
-
-button-container {
-  display: flex;
-  justify-content: flex-start; /* Alinea los botones hacia la izquierda */
-  gap: 10px;
-  margin-top: 20px; /* Espacio por encima */
-}
-
-/* Estilo del botón individual */
-.custom-file-upload, .selectButton, .pageButton {
-  padding: 12px 30px;
+.pageButton {
+  padding: 12px 50px;
   background-color: white;
   border: 2px solid black;
   color: black;
   cursor: pointer;
   box-shadow: 0 6px 8px rgba(0, 0, 0, 0.1);
-  font-size: 16px;
+  font-size: 14px;
   border-radius: 5px;
-  transition: background-color 0.3s;
+  transition: transform 0.3s ease-in-out, background-color 0.3s ease-in-out;
+
 }
 
-.custom-file-upload:hover, .selectButton:hover, .pageButton:hover {
-  background-color: #b2b3b2;
+ .pageButton:hover {
+  transform: scale(1.1);
+    background-color: #f1f1f1; 
 }

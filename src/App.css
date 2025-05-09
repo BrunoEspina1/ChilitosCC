@@ -13,6 +13,39 @@
   margin-top: 650px;
   gap: 10px; 
 }
+.hover {
+  position: absolute;
+  top: 0px;
+  left: 0;
+  right: 0;
+  font-size: 20px;
+  background-color: #691B34;
+  border: 2px solid  #691B34 !important; 
+  color: white;
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.1); 
+  align-items: center; 
+  flex: auto;
+  padding: 24px;
+
+}
+
+header {
+  background-color: #991B48; /* Color vino oscuro */
+  display: flex;
+  align-items: center;
+  padding: 10px 20px;
+}
+
+.logo {
+  height: 40px;
+  margin-right: 15px;
+}
+
+.header-text {
+  color: white;
+  font-weight: bold;
+  font-size: 20px;
+}
 
 
 
