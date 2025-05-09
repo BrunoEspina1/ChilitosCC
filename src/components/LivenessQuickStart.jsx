@@ -1,12 +1,88 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { uploadData } from 'aws-amplify/storage';
 import { post } from 'aws-amplify/api';
+import './Liveness.css'
 
 const ImageUpload = () => {
   const [image, setImage] = useState(null);
   const [loading, setLoading] = useState(false);
   const [uploadProgress, setUploadProgress] = useState(0);
+  const [estadoDeseado, setEstadoDeseado] = useState('sonrie'); // Puedes cambiarlo dinámicamente luego si quieres
 
+
+  const opcionesEstados = [
+    "sonrie", 
+    "boca_abierta", 
+    "ojos_abiertos", 
+    "feliz", 
+    "sorprendido",
+    "calmado", 
+    "confundido", 
+    "disgustado", 
+    "triste", 
+    "miedo", 
+    "enojado", 
+    "sonriente", 
+    "abre_la_boca", 
+    "ojos_abiertos_completamente", 
+    "riendo", 
+    "asombrado", 
+    "relajado", 
+    "confundida", 
+    "molesto", 
+    "frunce_el_ceño", 
+    "desagrado", 
+    "llorando", 
+    "nervioso", 
+    "temeroso"
+  ];
+
+  const obtenerEstadoAleatorio = () => {
+    const aleatorio = opcionesEstados[Math.floor(Math.random() * opcionesEstados.length)];
+    setEstadoDeseado(aleatorio); // Establecer el estado aleatorio seleccionado
+  };
+
+  const compararEstado = (resultadoAWS, estadoDeseado) => {
+    const emociones = resultadoAWS.faces[0].emotions.reduce((acc, emo) => {
+      acc[emo.Type.toLowerCase()] = emo.Confidence > 90; // Puedes ajustar el umbral
+      return acc;
+    }, {});
+
+  
+
+    const resultado = {
+      sonrie: resultadoAWS.faces[0].smile?.Value === true,
+      boca_abierta: resultadoAWS.faces[0].mouthOpen?.Value === true,
+      ojos_abiertos: resultadoAWS.faces[0].eyesOpen?.Value === true,
+    
+      feliz: emociones['happy'] || false,
+      sorprendido: emociones['surprised'] || false,
+      calmado: emociones['calm'] || false,
+      confundido: emociones['confused'] || false,
+      disgustado: emociones['disgusted'] || false,
+      triste: emociones['sad'] || false,
+      miedo: emociones['fear'] || false,
+      enojado: emociones['angry'] || false,
+    
+      sonriente: resultadoAWS.faces[0].smile?.Value === true,
+      abre_la_boca: resultadoAWS.faces[0].mouthOpen?.Value === true,
+      ojos_abiertos_completamente: resultadoAWS.faces[0].eyesOpen?.Value === true,
+    
+      riendo: emociones['happy'] || false,
+      asombrado: emociones['surprised'] || false,
+      relajado: emociones['calm'] || false,
+      confundida: emociones['confused'] || false,
+      molesto: emociones['angry'] || false,
+      frunce_el_ceño: emociones['angry'] || false,
+      desagrado: emociones['disgusted'] || false,
+      llorando: emociones['sad'] || false,
+      nervioso: emociones['fear'] || false,
+      temeroso: emociones['fear'] || false,
+    };
+  
+    return resultado[estadoDeseado] === true;
+  };
+  
   // Función para manejar el cambio de archivo (imagen seleccionada)
   const handleImageChange = (e) => {
     setImage(e.target.files[0]);
@@ -59,12 +135,20 @@ const ImageUpload = () => {
           },
         },
       });
-
+     
       console.log('subiendo')
       const { body } = await result.response;
       const response = await body.json();
       console.log(response);
+      const coincide = compararEstado(response, estadoDeseado);
+      
+      if (coincide) {
+        alert(`✅ Correcto: La persona está ${estadoDeseado}`);
+      } else {
+        alert(`❌ No coincide con el estado deseado: ${estadoDeseado}`);
+      }
       alert('Análisis facial completado');
+
     } catch (error) {
       console.error('Error al procesar la imagen:', error);
       alert('Ocurrió un error al procesar la imagen.');
@@ -74,10 +158,19 @@ const ImageUpload = () => {
   };
 
   return (
-    <div>
+    <div >
+
+      <div>
+        <button className='random' onClick={obtenerEstadoAleatorio}>Generar estado aleatorio</button>
+      </div>
+
+      <div className='liveness-accion'>
+        <p>Estado: <span className="bold"> {estadoDeseado}</span></p>
+      </div>
+
       <input type="file" accept="image/*" onChange={handleImageChange} />
       {uploadProgress > 0 && <p>Progreso de carga: {uploadProgress}%</p>}
-      <button onClick={handleUpload} disabled={loading}>
+      <button className='selectButton' onClick={handleUpload} disabled={loading}>
         {loading ? 'Cargando...' : 'Subir y Analizar Imagen'}
       </button>
     </div>

@@ -4,3 +4,15 @@
   padding: 2rem;
 
 }
+
+.imageProcess {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: auto;
+  margin-top: 650px;
+  gap: 10px; 
+}
+
+
+

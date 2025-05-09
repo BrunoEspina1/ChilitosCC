@@ -25,7 +25,7 @@ function App() {
   return (
     <>
       {!passed ? (
-        <div>
+        <div className='imageProcess'>
             <LivenessQuickStart onSuccess={handleSuccess} />
         </div>
         
