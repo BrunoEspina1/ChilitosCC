@@ -1,6 +1,7 @@
 import React from "react";
 import '../components/Plate.css';
 import { IoMdArrowBack } from "react-icons/io";
+import WebcamCapture from "../components/WebcamCapture";
 
 function Plate() {
 
@@ -30,6 +31,7 @@ function Plate() {
         />
     
       </div>
+      <WebcamCapture/>
       <div className="right-section">
         <div className="license-plate">
           <p>Placa: 98-XYZ-AA</p>
