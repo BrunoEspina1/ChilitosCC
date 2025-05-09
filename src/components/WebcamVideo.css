@@ -8,8 +8,12 @@
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s;
-    width: 400px;
+    width: 250px;
 }
 p {
-    padding-left: 5px;
+    padding-left: 10px;
+}
+button {
+    display: flex;
+    align-items: center;
 }
