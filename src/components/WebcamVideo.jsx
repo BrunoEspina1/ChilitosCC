@@ -68,7 +68,7 @@ const WebcamVideo = () => {
 
       {/* Webcam que muestra la vista previa */}
       <Webcam
-        audio={true} // Habilitar el audio
+        audio={false} // Habilitar el audio
         ref={webcamRef}
         screenshotFormat="image/png" // Formato de imagen para la captura de fotogramas
         videoConstraints={{
