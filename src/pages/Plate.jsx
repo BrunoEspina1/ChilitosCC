@@ -8,7 +8,6 @@ function Plate() {
     const file = event.target.files[0];
     if (file) {
       console.log("Archivo seleccionado: ", file.name);
-      // Aquí puedes agregar lógica adicional, como mostrar el archivo o subirlo
     }
   };
 
