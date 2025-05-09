@@ -1,3 +1,25 @@
+.pageDiv{
+ position: fixed;
+  bottom: 450px;       
+  right: 200px;        
+  display: flex;
+  align-items: flex-end; 
+  justify-content: flex-end;
+}
+
+.pageButton{
+    padding: 12px 30px;
+    background-color: white;
+    border: 2px solid black !important; 
+    color: black;
+    cursor: pointer;
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.1); 
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
 .selectButton {
     padding: 12px 30px;
     background-color: white;
@@ -51,3 +73,32 @@
     font-weight: bold;
   }
   
+
+  .overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(201, 201, 201, 0.7); /* Fondo oscuro */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.5s ease-in-out; 
+    z-index: 999;
+  }
+  
+  .overlay.active {
+    opacity: 1;
+    pointer-events: auto; 
+  } 
+  
+  .success {
+    color: green;
+  }
+  
+  .error {
+    color: red;
+  }

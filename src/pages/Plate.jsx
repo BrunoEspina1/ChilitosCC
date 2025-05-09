@@ -11,12 +11,16 @@ function Plate() {
     }
   };
 
+  const handleReload = () => {
+    window.location.reload();
+  };
+
   return (
     <div className="container">
         
       <div className="left-section">
         <div>
-        <button className="button2"><IoMdArrowBack /> 
+        <button onClick={handleReload} className="button2"><IoMdArrowBack /> 
         </button> 
         </div>
         <label htmlFor="file-upload" className="button1">Subir</label>

@@ -3,11 +3,25 @@ import { uploadData } from 'aws-amplify/storage';
 import { post } from 'aws-amplify/api';
 import './Liveness.css'
 
-const ImageUpload = () => {
+
+const ImageUpload = ({ onSuccess, setPassed, setAnimationTriggered }) => {
   const [image, setImage] = useState(null);
   const [loading, setLoading] = useState(false);
   const [uploadProgress, setUploadProgress] = useState(0);
-  const [estadoDeseado, setEstadoDeseado] = useState('sonrie'); // Puedes cambiarlo dinámicamente luego si quieres
+  const [estadoDeseado, setEstadoDeseado] = useState('sonrie'); 
+  const [statusMessage, setStatusMessage] = useState('');  
+  const [success, setSuccess] = useState(false); 
+  const [overlayActive, setOverlayActive] = useState(false);
+   
+  
+  const handleButtonClick = () => {
+  
+    setPassed(true); 
+    setAnimationTriggered(true);  
+    onSuccess(); 
+  };
+
+ 
 
 
   const opcionesEstados = [
@@ -121,6 +135,10 @@ const ImageUpload = () => {
     }
 
     setLoading(true);
+    setStatusMessage('');
+    setSuccess(false);
+    setOverlayActive(true); 
+
     try {
       // Subir la imagen a S3 y obtener la clave del archivo
       const fileKey = await handleImageUpload(image);
@@ -143,22 +161,37 @@ const ImageUpload = () => {
       const coincide = compararEstado(response, estadoDeseado);
       
       if (coincide) {
-        alert(`✅ Correcto: La persona está ${estadoDeseado}`);
+        setStatusMessage(`✅ Correcto: La persona coincide con el estado: ${estadoDeseado}`);
+        setSuccess(true);
       } else {
-        alert(`❌ No coincide con el estado deseado: ${estadoDeseado}`);
+        setStatusMessage(`❌ No coincide con el estado deseado: ${estadoDeseado}`);
+        setSuccess(false);
       }
-      alert('Análisis facial completado');
-
     } catch (error) {
       console.error('Error al procesar la imagen:', error);
-      alert('Ocurrió un error al procesar la imagen.');
+      setStatusMessage('Ocurrió un error al procesar la imagen.');
+      setSuccess(false);
     } finally {
       setLoading(false);
+     
+      setTimeout(() => {
+        setOverlayActive(false); 
+      }, 1000);
     }
   };
 
+
+
   return (
     <div >
+            {overlayActive && (
+        <div className={`overlay ${statusMessage ? 'active' : ''}`}>
+          <div className="overlay-content">
+            <p className={success ? 'success' : 'error'}>{statusMessage}</p>
+          </div>
+        </div>
+      )}
+
 
       <div>
         <button className='random' onClick={obtenerEstadoAleatorio}>Generar estado aleatorio</button>
@@ -173,6 +206,9 @@ const ImageUpload = () => {
       <button className='selectButton' onClick={handleUpload} disabled={loading}>
         {loading ? 'Cargando...' : 'Subir y Analizar Imagen'}
       </button>
+      <div className='pageDiv'>
+      {success && <button onClick={handleButtonClick} className='pageButton'>Ir a plates</button>}
+      </div>
     </div>
   );
 };
