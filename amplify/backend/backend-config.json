@@ -41,6 +41,22 @@
           ],
           "category": "function",
           "resourceName": "ImageAnalysisFunction"
+        },
+        {
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "processVideo"
+        },
+        {
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "getVideoResults"
         }
       ],
       "providerPlugin": "awscloudformation",
@@ -102,6 +118,16 @@
       "service": "Lambda"
     },
     "getLivenessResult": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
+    "getVideoResults": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
+    "processVideo": {
       "build": true,
       "providerPlugin": "awscloudformation",
       "service": "Lambda"
@@ -201,6 +227,38 @@
         {
           "category": "function",
           "resourceName": "getLivenessResult"
+        }
+      ]
+    },
+    "AMPLIFY_function_getVideoResults_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "getVideoResults"
+        }
+      ]
+    },
+    "AMPLIFY_function_getVideoResults_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "getVideoResults"
+        }
+      ]
+    },
+    "AMPLIFY_function_processVideo_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "processVideo"
+        }
+      ]
+    },
+    "AMPLIFY_function_processVideo_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "processVideo"
         }
       ]
     }
