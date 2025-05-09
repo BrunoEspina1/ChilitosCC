@@ -3,33 +3,34 @@ import { uploadData } from 'aws-amplify/storage';
 import { post } from 'aws-amplify/api';
 import WebcamCapture from './WebcamCapture';
 
+export const opcionesEstados = [
+  "Sonrie", 
+  "Boca_abierta", 
+  "Ojos abiertos", 
+  "Feliz", 
+  "Sorprendido",
+  "Calmado", 
+  "Confundido", 
+  "Disgustado", 
+  "Triste", 
+  "Miedo", 
+  "Enojado", 
+  "Sonriente", 
+  "Abre_la_boca", 
+  "Abre_los_ojos", 
+  "Riendo", 
+  "Asombrado", 
+  "Relajado", 
+  "Confundida", 
+  "Molesto", 
+  "Frunce_el_ceño", 
+  "Cara_Desagrado", 
+  "Cara_llorando", 
+  "Cara_Nervioso", 
+  "Cara_Temeroso"
+];
 
-  export const opcionesEstados = [
-    "sonrie", 
-    "boca_abierta", 
-    "ojos_abiertos", 
-    "feliz", 
-    "sorprendido",
-    "calmado", 
-    "confundido", 
-    "disgustado", 
-    "triste", 
-    "miedo", 
-    "enojado", 
-    "sonriente", 
-    "abre_la_boca", 
-    "ojos_abiertos_completamente", 
-    "riendo", 
-    "asombrado", 
-    "relajado", 
-    "confundida", 
-    "molesto", 
-    "frunce_el_ceño", 
-    "desagrado", 
-    "llorando", 
-    "nervioso", 
-    "temeroso"
-  ];
+
 const ImageUpload = ({ onSuccess, setPassed, setAnimationTriggered }) => {
   const [image, setImage] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -68,36 +69,35 @@ const ImageUpload = ({ onSuccess, setPassed, setAnimationTriggered }) => {
     }, {});
 
   
+const resultado = {
+  Sonrie: resultadoAWS.faces[0].smile?.Value === true,
+  Boca_abierta: resultadoAWS.faces[0].mouthOpen?.Value === true,
+  Ojos_abiertos: resultadoAWS.faces[0].eyesOpen?.Value === true,
 
-    const resultado = {
-      sonrie: resultadoAWS.faces[0].smile?.Value === true,
-      boca_abierta: resultadoAWS.faces[0].mouthOpen?.Value === true,
-      ojos_abiertos: resultadoAWS.faces[0].eyesOpen?.Value === true,
-    
-      feliz: emociones['happy'] || false,
-      sorprendido: emociones['surprised'] || false,
-      calmado: emociones['calm'] || false,
-      confundido: emociones['confused'] || false,
-      disgustado: emociones['disgusted'] || false,
-      triste: emociones['sad'] || false,
-      miedo: emociones['fear'] || false,
-      enojado: emociones['angry'] || false,
-    
-      sonriente: resultadoAWS.faces[0].smile?.Value === true,
-      abre_la_boca: resultadoAWS.faces[0].mouthOpen?.Value === true,
-      ojos_abiertos_completamente: resultadoAWS.faces[0].eyesOpen?.Value === true,
-    
-      riendo: emociones['happy'] || false,
-      asombrado: emociones['surprised'] || false,
-      relajado: emociones['calm'] || false,
-      confundida: emociones['confused'] || false,
-      molesto: emociones['angry'] || false,
-      frunce_el_ceño: emociones['angry'] || false,
-      desagrado: emociones['disgusted'] || false,
-      llorando: emociones['sad'] || false,
-      nervioso: emociones['fear'] || false,
-      temeroso: emociones['fear'] || false,
-    };
+  Feliz: emociones['happy'] || false,
+  Sorprendido: emociones['surprised'] || false,
+  Calmado: emociones['calm'] || false,
+  Confundido: emociones['confused'] || false,
+  Disgustado: emociones['disgusted'] || false,
+  Triste: emociones['sad'] || false,
+  Miedo: emociones['fear'] || false,
+  Enojado: emociones['angry'] || false,
+
+  Sonriente: resultadoAWS.faces[0].smile?.Value === true,
+  Abre_la_boca: resultadoAWS.faces[0].mouthOpen?.Value === true,
+  Abre_los_ojos: resultadoAWS.faces[0].eyesOpen?.Value === true,
+
+  Riendo: emociones['happy'] || false,
+  Asombrado: emociones['surprised'] || false,
+  Relajado: emociones['calm'] || false,
+  Confundida: emociones['confused'] || false,
+  Molesto: emociones['angry'] || false,
+  Frunce_el_ceño: emociones['angry'] || false,
+  Cara_Desagrado: emociones['disgusted'] || false,
+  Cara_llorando: emociones['sad'] || false,
+  Cara_Nervioso: emociones['fear'] || false,
+  Cara_Temeroso: emociones['fear'] || false,
+};
   
     return resultado[estadoDeseado] === true;
   };
