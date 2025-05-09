@@ -38,7 +38,7 @@
         },
         "ImageAnalysisFunction": {
           "deploymentBucketName": "amplify-chilitoscc-dev-57ab7-deployment",
-          "s3Key": "amplify-builds/ImageAnalysisFunction-484b7435786462433948-build.zip"
+          "s3Key": "amplify-builds/ImageAnalysisFunction-6a67795033486b422b36-build.zip"
         }
       },
       "storage": {

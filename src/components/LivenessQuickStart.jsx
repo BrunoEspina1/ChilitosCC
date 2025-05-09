@@ -15,20 +15,22 @@ const ImageUpload = () => {
   // Función para cargar la imagen y obtener la clave del archivo en S3
   const handleImageUpload = async (file) => {
     try {
+        console.log('que')
       const result = await uploadData({
-        path: `public/${file.name}`, // Cambia el path según tu estructura de almacenamiento en S3
+        path: `public/${file.name}`,
         data: file,
         options: {
           onProgress: ({ transferredBytes, totalBytes }) => {
             if (totalBytes) {
               const progress = Math.round((transferredBytes / totalBytes) * 100);
-              setUploadProgress(progress); // Actualiza el progreso de carga
+              setUploadProgress(progress);
             }
           },
         },
       }).result;
+      console.log('holas')
       console.log(result)
-      return result.path; // Retorna la clave del archivo en S3
+      return result.path;
     } catch (error) {
       console.error('Error al cargar la imagen:', error);
       throw error;
@@ -47,21 +49,21 @@ const ImageUpload = () => {
       // Subir la imagen a S3 y obtener la clave del archivo
       const fileKey = await handleImageUpload(image);
 
-      // Realizar la solicitud a la API Gateway para procesar la imagen con Rekognition
       const result = post({
-        apiName: 'CCApi', // Nombre de tu API Gateway
-        path: '/facial-analysis', // La ruta del endpoint en tu API Gateway
+        apiName: 'CCApi',
+        path: '/facial-analysis',
         options: {
           body: {
-            bucket: 'chilitosccb57f042b6f394b9c86efe0bb3430ab2757ab7-dev', // Nombre del bucket de S3
-            key: fileKey, // Clave del archivo que se subió
+            bucket: 'chilitosccb57f042b6f394b9c86efe0bb3430ab2757ab7-dev', 
+            key: fileKey,
           },
         },
       });
 
+      console.log('subiendo')
       const { body } = await result.response;
       const response = await body.json();
-      console.log(response); // Aquí puedes manejar la respuesta, como mostrar los resultados del análisis facial
+      console.log(response);
       alert('Análisis facial completado');
     } catch (error) {
       console.error('Error al procesar la imagen:', error);
