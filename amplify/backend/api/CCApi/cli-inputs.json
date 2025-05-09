@@ -35,6 +35,20 @@
       "permissions": {
         "setting": "open"
       }
+    },
+    "/video/process": {
+      "name": "/video/process",
+      "lambdaFunction": "processVideo",
+      "permissions": {
+        "setting": "open"
+      }
+    },
+    "/video/get": {
+      "name": "/video/get",
+      "lambdaFunction": "getVideoResults",
+      "permissions": {
+        "setting": "open"
+      }
     }
   }
 }
