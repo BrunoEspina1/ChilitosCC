@@ -5,15 +5,15 @@ import { FaUpload } from "react-icons/fa6";
 import { post } from 'aws-amplify/api';
 import { uploadData, downloadData } from 'aws-amplify/storage';
 import WebcamVideo from '../components/WebcamVideo';
-import { validatePlates } from "../components/validatePlate";
+import { validatePlates } from "../components/validatePlate"; // Asumiendo que validatePlates ya está importado
 
 function Plate() {
   const [path, setPath] = useState(false);
   const [plates, setPlates] = useState([]); // Estado para almacenar las placas verificadas
   const [loading, setLoading] = useState(false);
   const [modalOpen, setModalOpen] = useState(false); // Estado para manejar el modal
+  const [platesLoaded, setPlatesLoaded] = useState(false); // Estado para verificar si las placas están cargadas
 
-  // Función para manejar el cambio de archivo
   const handleFileChange = (event) => {
     const file = event.target.files[0];
     if (file) {
@@ -22,7 +22,6 @@ function Plate() {
     }
   };
 
-  // Función para procesar el video y obtener las placas
   const sendVideo = async (videoBlob) => {
     try {
       let jobId = '';
@@ -47,7 +46,6 @@ function Plate() {
     }
   };
 
-  // Función para analizar el video
   const analyzeVideo = async (fileKey) => {
     try {
       const finalFileKey = 'public/' + fileKey;
@@ -74,7 +72,6 @@ function Plate() {
     }
   };
 
-  // Función para obtener las placas de S3
   const fetchPlates = async (jobId) => {
     try {
       console.log('Job fetcheado: ', jobId);
@@ -95,39 +92,39 @@ function Plate() {
 
       // Mock data: Asignar datos de reporte a cada placa validada
       const mockedPlatesData = validatedPlates.validated.map(plate => {
-        
         const expirationDates = [
-    "2025-08-15",
-    "2025-09-10",
-    "2025-07-20",
-    "2026-01-05",
-    "2026-02-28",
-  ];
+          "2025-08-15",
+          "2025-09-10",
+          "2025-07-20",
+          "2026-01-05",
+          "2026-02-28",
+        ];
 
-  // Lista de nombres de propietarios simulados
-  const owners = [
-    "Juan Pérez",
-    "Ana Gómez",
-    "Carlos Sánchez",
-    "María Rodríguez",
-    "Luis Fernández",
-    "Patricia Díaz",
-    "Jorge Martínez",
-    "Laura García",
-  ];
-     const getRandomValue = (arr) => arr[Math.floor(Math.random() * arr.length)];
-    
-       return {
-    ...plate, // Placa y estado
-    stolen: plate.state === "Ciudad de México" ? "¡Robada!" : "No reportada",
-    fine: "Sin incidencias", // Aquí puedes cambiar para multar con "Multa pendiente" si lo deseas
-    expiration: getRandomValue(expirationDates), // Fecha de expiración aleatoria
-    owner: getRandomValue(owners), // Propietario aleatorio
-  };
+        const owners = [
+          "Juan Pérez",
+          "Ana Gómez",
+          "Carlos Sánchez",
+          "María Rodríguez",
+          "Luis Fernández",
+          "Patricia Díaz",
+          "Jorge Martínez",
+          "Laura García",
+        ];
+
+        const getRandomValue = (arr) => arr[Math.floor(Math.random() * arr.length)];
+
+        return {
+          ...plate, // Placa y estado
+          stolen: plate.state === "Ciudad de México" ? "¡Robada!" : "No reportada",
+          fine: "Sin incidencias",
+          expiration: getRandomValue(expirationDates), // Fecha de expiración aleatoria
+          owner: getRandomValue(owners), // Propietario aleatorio
+        };
       });
 
       setPlates(mockedPlatesData); // Actualizar con las placas y sus datos simulados
       setModalOpen(true); // Abrir el modal con la tabla
+      setPlatesLoaded(true); // Marcar que las placas están cargadas
     } catch (error) {
       console.error('Error al obtener las placas: ', error);
     }
@@ -143,6 +140,42 @@ function Plate() {
 
   const openModal = () => {
     setModalOpen(true); // Abrir el modal
+  };
+
+  const convertToCSV = (data) => {
+    const header = ["Placa", "Estado", "Multa", "Fecha Expiración", "Propietario"];
+    const rows = data.map(plate => [
+      plate.plate,
+      plate.state,
+      plate.fine,
+      plate.expiration,
+      plate.owner
+    ]);
+
+    const csvContent = [
+      header.join(","),
+      ...rows.map(row => row.join(","))
+    ].join("\n");
+
+    return csvContent;
+  };
+
+  const downloadCSV = (data) => {
+    const csvContent = convertToCSV(data);
+    const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+    const link = document.createElement("a");
+    link.href = URL.createObjectURL(blob);
+    link.download = "placas.csv";
+    link.click();
+  };
+
+  // Nueva función para manejar la apertura del modal solo si las placas han sido cargadas
+  const handleOpenModal = () => {
+    if (plates.length === 0) {
+      alert("Por favor, sube un archivo o graba un video para continuar.");
+    } else {
+      setModalOpen(true); // Abrir el modal si ya se ha cargado el contenido
+    }
   };
 
   return (
@@ -173,7 +206,12 @@ function Plate() {
             <p>No hay placas verificadas.</p>
           )}
           {/* Botón para abrir el modal */}
-          <button onClick={openModal} className="ver">Ver detalles de las placas</button>
+          <button onClick={handleOpenModal} className="ver" disabled={!platesLoaded}>
+            Ver detalles de las placas
+          </button>
+          <button onClick={() => downloadCSV(plates)} className="download-csv-btn" disabled={!platesLoaded}>
+            Descargar CSV
+          </button>
         </div>
       </div>
 
@@ -213,4 +251,3 @@ function Plate() {
 }
 
 export default Plate;
-
