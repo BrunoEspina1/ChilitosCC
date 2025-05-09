@@ -132,7 +132,7 @@ const ImageUpload = ({ onSuccess, setPassed, setAnimationTriggered }) => {
     }
   };
 
-  // Función para manejar la carga de la imagen y enviar la solicitud a la API Gateway
+
   const handleUpload = async () => {
     if (!image) {
       alert('Por favor selecciona una imagen.');
@@ -145,7 +145,6 @@ const ImageUpload = ({ onSuccess, setPassed, setAnimationTriggered }) => {
     setOverlayActive(true); 
 
     try {
-      // Subir la imagen a S3 y obtener la clave del archivo
       const fileKey = await handleImageUpload(image)
 
       const result = post({
@@ -187,20 +186,17 @@ const ImageUpload = ({ onSuccess, setPassed, setAnimationTriggered }) => {
 
 
   useEffect(() => {
-    // Función para cambiar rápidamente las palabras
     const interval = setInterval(() => {
       if (animating) {
         const aleatorio = opcionesEstados[Math.floor(Math.random() * opcionesEstados.length)];
         setEstadoDeseado(aleatorio);
       }
-    }, 100); // Cambia el texto cada 100ms
+    }, 100);
 
-    // Detener la animación después de 2 segundos
     const timeout = setTimeout(() => {
-      setAnimating(false);  // Detenemos la animación
-    }, 2000); // Detener después de 2 segundos
+      setAnimating(false); 
+    }, 2000); 
 
-    // Limpiar los intervalos y timeouts al desmontar el componente
     return () => {
       clearInterval(interval);
       clearTimeout(timeout);
@@ -220,8 +216,6 @@ const ImageUpload = ({ onSuccess, setPassed, setAnimationTriggered }) => {
           </div>
         </div>
       )}
-      
-        {/* <button className='random' onClick={obtenerEstadoAleatorio}>Generar estado aleatorio</button> */}
        
        
         <div className='liveness-accion'>
