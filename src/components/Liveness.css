@@ -5,8 +5,10 @@
     right: 0;
     bottom: 170px;
     display: flex;
+    width: auto;
+    margin-inline: 250px;
     justify-content: center;
-    align-items: center;
+    align-items: center;
 }
 .pageDiv{
  position: fixed;

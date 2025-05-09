@@ -5,28 +5,7 @@ import './Liveness.css'
 import WebcamCapture from './WebcamCapture';
 import { FaUpload } from 'react-icons/fa';  
 
-
-const ImageUpload = ({ onSuccess, setPassed, setAnimationTriggered }) => {
-  const [image, setImage] = useState(null);
-  const [loading, setLoading] = useState(false);
-  const [uploadProgress, setUploadProgress] = useState(0);
-  const [estadoDeseado, setEstadoDeseado] = useState('sonrie'); 
-  const [statusMessage, setStatusMessage] = useState('');  
-  const [success, setSuccess] = useState(false); 
-  const [overlayActive, setOverlayActive] = useState(false);
-   
-  
-  const handleButtonClick = () => {
-  
-    setPassed(true); 
-    setAnimationTriggered(true);  
-    onSuccess(); 
-  };
-
- 
-
-
-  const opcionesEstados = [
+  export const opcionesEstados = [
     "sonrie", 
     "boca_abierta", 
     "ojos_abiertos", 
@@ -52,6 +31,28 @@ const ImageUpload = ({ onSuccess, setPassed, setAnimationTriggered }) => {
     "nervioso", 
     "temeroso"
   ];
+const ImageUpload = ({ onSuccess, setPassed, setAnimationTriggered }) => {
+  const [image, setImage] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [uploadProgress, setUploadProgress] = useState(0);
+  const [estadoDeseado, setEstadoDeseado] = useState('sonrie'); 
+  const [statusMessage, setStatusMessage] = useState('');  
+  const [success, setSuccess] = useState(false); 
+  const [overlayActive, setOverlayActive] = useState(false);
+   
+  const setSuccess2= (state)=> {
+      setSuccess(state)
+  }
+
+  const handleButtonClick = () => {
+  
+    setPassed(true); 
+    setAnimationTriggered(true);  
+    onSuccess(); 
+  };
+
+ 
+
 
   const obtenerEstadoAleatorio = () => {
     const aleatorio = opcionesEstados[Math.floor(Math.random() * opcionesEstados.length)];
@@ -143,7 +144,7 @@ const ImageUpload = ({ onSuccess, setPassed, setAnimationTriggered }) => {
 
     try {
       // Subir la imagen a S3 y obtener la clave del archivo
-      const fileKey = await handleImageUpload(image);
+      const fileKey = await handleImageUpload(image)
 
       const result = post({
         apiName: 'CCApi',
@@ -200,7 +201,8 @@ const ImageUpload = ({ onSuccess, setPassed, setAnimationTriggered }) => {
         <p>Estado: <span className="bold"> {estadoDeseado}</span></p>
       </div>
       <div className='webCam'>
-      <WebcamCapture/>
+      <WebcamCapture estadoDeseado={estadoDeseado} setSuccess={setSuccess2}
+      setPassed={setPassed}/>
       </div>
       <div className="button-container">
       <div className="file-upload-container">
