@@ -1,0 +1,66 @@
+
+ /* Overlay Styles */
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7); /* Dark background */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  pointer-events: none; /* Prevent interaction with elements while inactive */
+  transition: opacity 0.5s ease;
+  z-index: 999;
+}
+
+/* Active state for overlay */
+.overlay.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Circle and Checkmark Styles */
+.circle {
+  width: 100px;
+  height: 100px;
+  border: 2px solid transparent;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #fff;
+  margin-top: 20px;
+}
+
+/* Checkmark icon default styling */
+.checkmark-icon {
+  opacity: 0;
+  transform: scale(0) rotate(200deg); /* Start with no scale and no rotation */
+  transition: opacity 0.3s ease, transform 0.5s ease-out; /* Apply transitions */
+}
+
+/* When clicked, the checkmark will grow and rotate */
+.checkmark-icon.rotate {
+  opacity: 1;
+  transform: scale(1.5) rotate(360deg); /* Grow and rotate */
+  transition: transform 0.5s cubic-bezier(0, 0.55, 0.45, 1); /* Smooth rotation and scaling */
+}
+
+/* Circle animation for the background */
+@keyframes circle-animation {
+  0% {
+    transform: scale(0);
+    border-width: 2px;
+  }
+  50% {
+    transform: scale(1.5);
+    border-width: 10px;
+  }
+  100% {
+    transform: scale(1);
+    border-width: 2px;
+  }
+}
