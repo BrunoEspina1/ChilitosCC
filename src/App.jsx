@@ -5,16 +5,16 @@ import AutenticateAnimation from './pages/AutenticateAnimation';
 import Plate from './pages/Plate';
 
 function App() {
-  const [passed, setPassed] = useState(false); // Lo mantienes en true para ver la animación desde el inicio
-  const [animationTriggered, setAnimationTriggered] = useState(false); // Esto activará la animación
+  const [passed, setPassed] = useState(false);
+  const [animationTriggered, setAnimationTriggered] = useState(false); 
 
   useEffect(() => {
     if (passed) {
         setTimeout(5000)
       setAnimationTriggered(true);
       setTimeout(() => {
-        setAnimationTriggered(false);  // Reset the animation to allow it to run again
-      }, 1000);  // Duration of the animation
+        setAnimationTriggered(false);  
+      }, 1000);  
     }
   }, [passed]);
 
@@ -26,7 +26,8 @@ function App() {
     <>
       {!passed ? (
         <div className='imageProcess'>
-            <LivenessQuickStart onSuccess={handleSuccess} />
+        <LivenessQuickStart onSuccess={handleSuccess} setPassed={setPassed} setAnimationTriggered={setAnimationTriggered} />
+
         </div>
         
       ) : (
