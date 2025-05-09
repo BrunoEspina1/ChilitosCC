@@ -1,6 +1,7 @@
 import React from "react";
 import '../components/Plate.css';
 import { IoMdArrowBack } from "react-icons/io";
+import WebcamCapture from "../components/WebcamCapture";
 
 function Plate() {
 
@@ -8,8 +9,11 @@ function Plate() {
     const file = event.target.files[0];
     if (file) {
       console.log("Archivo seleccionado: ", file.name);
-      // Aquí puedes agregar lógica adicional, como mostrar el archivo o subirlo
     }
+  };
+
+  const handleReload = () => {
+    window.location.reload();
   };
 
   return (
@@ -17,7 +21,7 @@ function Plate() {
         
       <div className="left-section">
         <div>
-        <button className="button2"><IoMdArrowBack /> 
+        <button onClick={handleReload} className="button2"><IoMdArrowBack /> 
         </button> 
         </div>
         <label htmlFor="file-upload" className="button1">Subir</label>
@@ -30,6 +34,7 @@ function Plate() {
         />
     
       </div>
+      <WebcamCapture/>
       <div className="right-section">
         <div className="license-plate">
           <p>Placa: 98-XYZ-AA</p>

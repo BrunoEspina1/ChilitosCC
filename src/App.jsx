@@ -13,8 +13,8 @@ function App() {
         setTimeout(5000)
       setAnimationTriggered(true);
       setTimeout(() => {
-        setAnimationTriggered(false);  // Reset the animation to allow it to run again
-      }, 1000);  // Duration of the animation
+        setAnimationTriggered(false);  
+      }, 1000);  
     }
   }, [passed]);
 
@@ -25,8 +25,9 @@ function App() {
   return (
     <>
       {!passed ? (
-        <div>
-            <LivenessQuickStart onSuccess={handleSuccess} />
+        <div className='imageProcess'>
+        <LivenessQuickStart onSuccess={handleSuccess} setPassed={setPassed} setAnimationTriggered={setAnimationTriggered} />
+
         </div>
         
       ) : (

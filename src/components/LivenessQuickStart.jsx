@@ -1,12 +1,104 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { uploadData } from 'aws-amplify/storage';
 import { post } from 'aws-amplify/api';
+import './Liveness.css'
+import WebcamCapture from './WebcamCapture';
+import { FaUpload } from 'react-icons/fa';  
 
-const ImageUpload = () => {
+
+const ImageUpload = ({ onSuccess, setPassed, setAnimationTriggered }) => {
   const [image, setImage] = useState(null);
   const [loading, setLoading] = useState(false);
   const [uploadProgress, setUploadProgress] = useState(0);
+  const [estadoDeseado, setEstadoDeseado] = useState('sonrie'); 
+  const [statusMessage, setStatusMessage] = useState('');  
+  const [success, setSuccess] = useState(false); 
+  const [overlayActive, setOverlayActive] = useState(false);
+   
+  
+  const handleButtonClick = () => {
+  
+    setPassed(true); 
+    setAnimationTriggered(true);  
+    onSuccess(); 
+  };
 
+ 
+
+
+  const opcionesEstados = [
+    "sonrie", 
+    "boca_abierta", 
+    "ojos_abiertos", 
+    "feliz", 
+    "sorprendido",
+    "calmado", 
+    "confundido", 
+    "disgustado", 
+    "triste", 
+    "miedo", 
+    "enojado", 
+    "sonriente", 
+    "abre_la_boca", 
+    "ojos_abiertos_completamente", 
+    "riendo", 
+    "asombrado", 
+    "relajado", 
+    "confundida", 
+    "molesto", 
+    "frunce_el_ceño", 
+    "desagrado", 
+    "llorando", 
+    "nervioso", 
+    "temeroso"
+  ];
+
+  const obtenerEstadoAleatorio = () => {
+    const aleatorio = opcionesEstados[Math.floor(Math.random() * opcionesEstados.length)];
+    setEstadoDeseado(aleatorio); // Establecer el estado aleatorio seleccionado
+  };
+
+  const compararEstado = (resultadoAWS, estadoDeseado) => {
+    const emociones = resultadoAWS.faces[0].emotions.reduce((acc, emo) => {
+      acc[emo.Type.toLowerCase()] = emo.Confidence > 90; // Puedes ajustar el umbral
+      return acc;
+    }, {});
+
+  
+
+    const resultado = {
+      sonrie: resultadoAWS.faces[0].smile?.Value === true,
+      boca_abierta: resultadoAWS.faces[0].mouthOpen?.Value === true,
+      ojos_abiertos: resultadoAWS.faces[0].eyesOpen?.Value === true,
+    
+      feliz: emociones['happy'] || false,
+      sorprendido: emociones['surprised'] || false,
+      calmado: emociones['calm'] || false,
+      confundido: emociones['confused'] || false,
+      disgustado: emociones['disgusted'] || false,
+      triste: emociones['sad'] || false,
+      miedo: emociones['fear'] || false,
+      enojado: emociones['angry'] || false,
+    
+      sonriente: resultadoAWS.faces[0].smile?.Value === true,
+      abre_la_boca: resultadoAWS.faces[0].mouthOpen?.Value === true,
+      ojos_abiertos_completamente: resultadoAWS.faces[0].eyesOpen?.Value === true,
+    
+      riendo: emociones['happy'] || false,
+      asombrado: emociones['surprised'] || false,
+      relajado: emociones['calm'] || false,
+      confundida: emociones['confused'] || false,
+      molesto: emociones['angry'] || false,
+      frunce_el_ceño: emociones['angry'] || false,
+      desagrado: emociones['disgusted'] || false,
+      llorando: emociones['sad'] || false,
+      nervioso: emociones['fear'] || false,
+      temeroso: emociones['fear'] || false,
+    };
+  
+    return resultado[estadoDeseado] === true;
+  };
+  
   // Función para manejar el cambio de archivo (imagen seleccionada)
   const handleImageChange = (e) => {
     setImage(e.target.files[0]);
@@ -45,6 +137,10 @@ const ImageUpload = () => {
     }
 
     setLoading(true);
+    setStatusMessage('');
+    setSuccess(false);
+    setOverlayActive(true); 
+
     try {
       // Subir la imagen a S3 y obtener la clave del archivo
       const fileKey = await handleImageUpload(image);
@@ -59,27 +155,74 @@ const ImageUpload = () => {
           },
         },
       });
-
+     
       console.log('subiendo')
       const { body } = await result.response;
       const response = await body.json();
       console.log(response);
-      alert('Análisis facial completado');
+      const coincide = compararEstado(response, estadoDeseado);
+      
+      if (coincide) {
+        setStatusMessage(`✅ Correcto: La persona coincide con el estado: ${estadoDeseado}`);
+        setSuccess(true);
+      } else {
+        setStatusMessage(`❌ No coincide con el estado deseado: ${estadoDeseado}`);
+        setSuccess(false);
+      }
     } catch (error) {
       console.error('Error al procesar la imagen:', error);
-      alert('Ocurrió un error al procesar la imagen.');
+      setStatusMessage('Ocurrió un error al procesar la imagen.');
+      setSuccess(false);
     } finally {
       setLoading(false);
+     
+      setTimeout(() => {
+        setOverlayActive(false); 
+      }, 1000);
     }
   };
 
+
+
   return (
-    <div>
-      <input type="file" accept="image/*" onChange={handleImageChange} />
+    <div >
+            {overlayActive && (
+        <div className={`overlay ${statusMessage ? 'active' : ''}`}>
+          <div className="overlay-content">
+            <p className={success ? 'success' : 'error'}>{statusMessage}</p>
+          </div>
+        </div>
+      )}
+      
+        <button className='random' onClick={obtenerEstadoAleatorio}>Generar estado aleatorio</button>
+    
+      <div className='liveness-accion'>
+        <p>Estado: <span className="bold"> {estadoDeseado}</span></p>
+      </div>
+      <div className='webCam'>
+      <WebcamCapture/>
+      </div>
+      <div className="button-container">
+      <div className="file-upload-container">
+        <input
+          type="file"
+          id="file-upload"
+          accept="image/*"
+          onChange={handleImageChange}
+          style={{ display: 'none' }}
+        />
+        <label htmlFor="file-upload" className="custom-file-upload">
+          <i className="upload-icon"></i> Subir Imagen
+        </label>
+      </div>
       {uploadProgress > 0 && <p>Progreso de carga: {uploadProgress}%</p>}
-      <button onClick={handleUpload} disabled={loading}>
+      <button className='selectButton' onClick={handleUpload} disabled={loading}>
         {loading ? 'Cargando...' : 'Subir y Analizar Imagen'}
       </button>
+      </div>
+      <div className='pageDiv'>
+      {success && <button onClick={handleButtonClick} className='pageButton'>Ir a plates</button>}
+      </div>
     </div>
   );
 };
