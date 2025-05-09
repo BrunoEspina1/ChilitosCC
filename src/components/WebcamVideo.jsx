@@ -1,8 +1,9 @@
 import React, { useRef, useState } from 'react';
 import Webcam from 'react-webcam';
 import { uploadData } from 'aws-amplify/storage'; // Importar la función para subir datos a S3
-import './Webcam.css';
-
+import './WebcamVideo.css';
+import { BsRecordCircleFill } from "react-icons/bs";
+import { FaStop } from "react-icons/fa";
 const WebcamVideo = () => {
   const [video, setVideo] = useState(null); // Para guardar el video grabado
   const [loading, setLoading] = useState(false); // Para saber si se está subiendo el video
@@ -68,7 +69,7 @@ const WebcamVideo = () => {
 
       {/* Webcam que muestra la vista previa */}
       <Webcam
-        audio={true} // Habilitar el audio
+        audio={false} // Habilitar el audio
         ref={webcamRef}
         screenshotFormat="image/png" // Formato de imagen para la captura de fotogramas
         videoConstraints={{
@@ -78,10 +79,10 @@ const WebcamVideo = () => {
 
       {/* Botones para iniciar y detener la grabación */}
       <button className='tomarFotoBtn' onClick={startRecording} disabled={isRecording}>
-        Iniciar Grabación
+        <BsRecordCircleFill /><p>Iniciar Grabación</p>
       </button>
       <button className='tomarFotoBtn' onClick={stopRecording} disabled={!isRecording}>
-        Detener Grabación
+            <FaStop /><p>Detener Grabación</p>
       </button>
 
       {/* Indicador de grabación */}
@@ -109,4 +110,5 @@ const WebcamVideo = () => {
   );
 };
 
-export default WebcamVideo;
+export default WebcamVideo;
+

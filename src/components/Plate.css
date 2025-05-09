@@ -1,80 +1,128 @@
-/* Asegura que .container sea un contenedor flex */
+/* 1. Contenedor principal: dos columnas equilibradas */
 .container {
-
-    display: flex;  
-    justify-content: space-between;  
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 40px;            /* separa secciones */
+  padding: 20px;
 }
 
-
+/* 2. Sección izquierda: video + botones */
 .left-section {
-    margin-top: 100px;
-    color: white;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start; 
-    height: 100%;  
-    border-radius: solid;
-    align-items: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;            /* espacio entre elementos */
+  margin-top: 100px;
 }
 
-
-.button1 {
-    
-    padding: 10px;
-    padding-inline: 55px;
-    font-size: 16px;
-    background-color: white;
-    border: 2px solid black !important; 
-    color: black;
-    cursor: pointer;
-    border-radius: 5px;
-    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.1); 
-}
-  
-  
-.button2 {
-    position: absolute; 
-    top: 45px;
-    left: 238px;  
-    padding: 12px 12px;  
-    font-size: 15px;  
-    text-align: center;  
-    background-color: white;  
-    border: 2px solid black;  
-    color: black;  
-    border-radius: 100%;  
-    display: inline-flex; 
-    justify-content: center;  
-    align-items: center;  
-  }
-  
-
-.button1:hover, .button2:hover {
-    background-color: rgb(215, 210, 210);
+/* 3. Video: fija un tamaño o proporción */
+.left-section video,
+.left-section img {
+  width: 600px;
+  max-width: 100%;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
 }
 
+/* 4. Wrapper de botones: coloca los dos botones en columna */
+.button-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+/* Botón circular de “volver” */
+.back-btn {
+  width: 50px;
+  height: 50px;
+  border: 2px solid #000;
+  border-radius: 50%;
+  background-color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  cursor: pointer;
+  transition: background-color .2s;
+}
+.back-btn:hover {
+  background-color: #e0dfdf;
+}
+
+/* Botón “Subir” solo tan ancho como su texto */
+.upload-btn {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 20px;
+  background-color: #fff;
+  border: 2px solid #000;
+  border-radius: 5px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  cursor: pointer;
+  transition: background-color .2s;
+  white-space: nowrap; /* evita quiebre de línea */
+}
+.upload-btn:hover {
+  background-color: #e0dfdf;
+}
+.upload-btn i {
+  margin-right: 8px; /* si tienes icono */
+}
+
+.upload-btn p {
+   padding-left: 8px; 
+   font-weight: bold;
+}
+
+/* 5. Estilos comunes para botones */
+.left-section .button1,
+.left-section .button2,
+.tomarFotoBtn {
+  padding: 10px 30px;
+  font-size: 16px;
+  background-color: #fff;
+  border: 2px solid #000;
+  border-radius: 5px;
+  box-shadow: 0 6px 8px rgba(0,0,0,0.1);
+  cursor: pointer;
+  transition: background-color .2s;
+}
+
+/* 6. Hover en todos */
+.left-section .button1:hover,
+.left-section .button2:hover,
+.tomarFotoBtn:hover {
+  background-color: #e0dfdf;
+}
+
+/* 7. Si quieres diferenciar tamaños o anchos */
+.left-section .button1 {
+  width: 200px;
+}
+.left-section .button2 {
+  width: 180px;
+}
+
+/* 8. Sección derecha intacta */
 .right-section {
-    width: 200px;
-    padding: 20px;
-    margin-top: 100px;
-    color: black;
-    background-color: white; 
-    border: 2px solid black;  
-    border-radius: 8px;  
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: flex-start;
-    height: 100%;
+  width: 220px;
+  padding: 20px;
+  margin-top: 100px;
+  background-color: #fff;
+  border: 2px solid #000;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 }
 
-.license-plate {
-        margin-bottom: 20px;
-    }
+.license-plate { margin-bottom: 10px; }
+.stolen { color: red; font-weight: bold; }
 
-
-.stolen {
-    color: red;
-    font-weight: bold;
+.video-card video {
+  display: block;
+  width: 100%;
+  height: auto;
 }
