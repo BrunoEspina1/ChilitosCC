@@ -95,13 +95,35 @@ function Plate() {
 
       // Mock data: Asignar datos de reporte a cada placa validada
       const mockedPlatesData = validatedPlates.validated.map(plate => {
-        return {
-          ...plate, // Placa y estado
-          stolen: plate.state === "Ciudad de México" ? "¡Robada!" : "No reportada",
-          fine: "Sin incidencias",
-          expiration: "2025-08-15",
-          owner: "Juan Pérez"
-        };
+        
+        const expirationDates = [
+    "2025-08-15",
+    "2025-09-10",
+    "2025-07-20",
+    "2026-01-05",
+    "2026-02-28",
+  ];
+
+  // Lista de nombres de propietarios simulados
+  const owners = [
+    "Juan Pérez",
+    "Ana Gómez",
+    "Carlos Sánchez",
+    "María Rodríguez",
+    "Luis Fernández",
+    "Patricia Díaz",
+    "Jorge Martínez",
+    "Laura García",
+  ];
+     const getRandomValue = (arr) => arr[Math.floor(Math.random() * arr.length)];
+    
+       return {
+    ...plate, // Placa y estado
+    stolen: plate.state === "Ciudad de México" ? "¡Robada!" : "No reportada",
+    fine: "Sin incidencias", // Aquí puedes cambiar para multar con "Multa pendiente" si lo deseas
+    expiration: getRandomValue(expirationDates), // Fecha de expiración aleatoria
+    owner: getRandomValue(owners), // Propietario aleatorio
+  };
       });
 
       setPlates(mockedPlatesData); // Actualizar con las placas y sus datos simulados
